@@ -1,5 +1,4 @@
 import 'package:artvista/customizations/size_config.dart';
-import 'package:artvista/screens/favourite.dart';
 import 'package:artvista/screens/homescreen.dart';
 import 'package:artvista/screens/search.dart';
 
@@ -7,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../widgets/snackbar.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
 // import 'package:google_nav_bar/google_nav_bar.dart';
 
@@ -45,7 +43,7 @@ class _AppLayoutState extends State<AppLayout> {
   bool isLoaded = false;
   initBannerAds() {
     bannerAd = BannerAd(
-        size: AdSize.largeBanner,
+        size: AdSize.banner,
         adUnitId: adUnit,
         listener: BannerAdListener(
           onAdLoaded: (ad) {

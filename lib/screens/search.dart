@@ -3,11 +3,11 @@ import 'package:artvista/customizations/size_config.dart';
 import 'package:artvista/models/model1.dart';
 import 'package:artvista/provider/post_provider.dart';
 import 'package:artvista/screens/details.dart';
+import 'package:artvista/widgets/snackbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:html/parser.dart';
 import 'package:provider/provider.dart';
@@ -180,13 +180,7 @@ class _SearchPageState extends State<SearchPage> {
                                       id: snapshot.data![index].id,
                                     );
                                 print(singlePost.author.bio.toString());
-                                ScaffoldMessenger.of(context)
-                                  .showSnackBar(const SnackBar(
-                                content: Text('Loading...'),
-                                duration: Duration(seconds: 5),
-                                behavior: SnackBarBehavior.floating,
-                                backgroundColor: Colors.purple,
-                              )); 
+                              showSuccessSnackbar(message: 'loading...');
                                 // ignore: use_build_context_synchronously
                                 Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) =>

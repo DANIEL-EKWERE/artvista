@@ -4,7 +4,6 @@ import 'package:artvista/models/model1.dart';
 import 'package:artvista/provider/ads_provider.dart';
 import 'package:artvista/provider/post_provider.dart';
 import 'package:artvista/screens/about.dart';
-import 'package:artvista/screens/contact.dart';
 import 'package:artvista/screens/privacy_policy.dart';
 import 'package:artvista/widgets/snackbar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -12,15 +11,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:html/parser.dart';
 import 'package:provider/provider.dart';
-import 'dart:io' show Platform;
 
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'dart:developer';
 import 'details.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -119,6 +115,8 @@ class _HomeScreenState extends State<HomeScreen> {
         .createRewardedInterstitialAd();
     Provider.of<AdsProvider>(context, listen: false).createInterstitialAd();
     Provider.of<AdsProvider>(context, listen: false).createRewardedAd();
+    Provider.of<AdsProvider>(context, listen: false).createNativeAd();
+    Provider.of<AdsProvider>(context, listen: false).showNativeAd();
 
     Provider.of<AdsProvider>(context, listen: false).initBannerAds();
     initBannerAds();
@@ -135,6 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
     AdsProvider().rewardedAd?.dispose();
     AdsProvider().rewardedInterstitialAd?.dispose();
     AdsProvider().bannerAd!.dispose();
+    AdsProvider().nativeAd!.dispose();
   }
 
   _parseHtmlString(String htmlString) {
@@ -157,7 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
         throw 'could not launch $url';
       }
     } else {
-      showMessage(context: context, message: 'video not available');
+      showErrorSnackbar(message: 'video not available');
     }
   }
 
@@ -245,36 +244,6 @@ class _HomeScreenState extends State<HomeScreen> {
               launchWebSite('https://audrey-art.com', context);
             },
           ),
-          // const Divider(),
-          // ListTile(
-          //   title: Text(
-          //     'contact',
-          //     style: kEncodeSansMedium.copyWith(
-          //         color: kGrey, fontSize: SizeConfig.blockSizeHorizontal! * 2),
-          //   ),
-          //   onTap: () {
-          //     Navigator.of(context).push(
-          //         CupertinoPageRoute(builder: (context) => const Contact()));
-          //   },
-          // ),
-          // const Divider(),
-          // ListTile(
-          //   title: const Text('theme:'),
-          //   trailing: ToggleButtons(children: [], isSelected: []),
-          //   onTap: () {
-          //     Provider.of<AdsProvider>(context, listen: false)
-          //         .showRewardedInterstitialAd();
-          //   },
-          // ),
-          // const Divider(),
-          // ListTile(
-          //   title: const Text('theme2:'),
-          //   trailing: ToggleButtons(children: [], isSelected: []),
-          //   onTap: () {
-          //     Provider.of<AdsProvider>(context, listen: false)
-          //         .showInterstitialAd();
-          //   },
-          // )
         ]),
       ),
       backgroundColor: Colors.black,
@@ -406,6 +375,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             key: UniqueKey(),
                             onTap: () async {
                               // print(item1);
+                              if (index == 3 &&
+                                  context.read<AdsProvider>().nativeAd !=
+                                      null) {
+                                return Provider.of<AdsProvider>(context,
+                                        listen: false)
+                                    .showNativeAd();
+                              }
                               if (context.read<AdsProvider>().clickCount == 3) {
                                 Provider.of<AdsProvider>(context, listen: false)
                                     .showRewardedInterstitialAd();
@@ -413,13 +389,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               } else {
                                 context.read<AdsProvider>().increamentCount();
                               }
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(const SnackBar(
-                                content: Text('Loading...'),
-                                duration: Duration(seconds: 5),
-                                behavior: SnackBarBehavior.floating,
-                                backgroundColor: Colors.purple,
-                              ));
+                              showSuccessSnackbar(message: 'loading...');
                               Post singlePost =
                                   await context.read<PostProvider>().singlePost(
                                         id: snapshot.data![index].id,

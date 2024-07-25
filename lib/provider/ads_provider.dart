@@ -8,6 +8,11 @@ class AdsProvider extends ChangeNotifier {
   InterstitialAd? get interstitialAd => _interstitialAd;
   int _numInterstitialLoadAttempts = 0;
 
+  NativeAd? _nativeAd;
+  NativeAd? get nativeAd => _nativeAd;
+  int _numNativeLoadAttempt = 0;
+  bool isNativeLoading = false;
+
   RewardedAd? _rewardedAd;
   RewardedAd? get rewardedAd => _rewardedAd;
   int _numRewardedLoadAttempts = 0;
@@ -24,6 +29,28 @@ class AdsProvider extends ChangeNotifier {
   bool isLoaded = false;
 
   int maxFailedLoadAttempts = 0;
+
+  void createNativeAd() {
+    _nativeAd = NativeAd(
+      adUnitId: 'ca-app-pub-8689659519341801/3790127966',
+      factoryId: 'listTile',
+      request: AdRequest(),
+      listener: NativeAdListener(
+        onAdLoaded: (ad) {
+          isNativeLoading = true;
+          notifyListeners();
+        },
+        onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+        },
+      ),
+    );
+    _nativeAd!.load();
+  }
+
+  void showNativeAd() {
+    createNativeAd();
+  }
 
   void createInterstitialAd() {
     InterstitialAd.load(
@@ -213,12 +240,12 @@ class AdsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void increamentCount(){
+  void increamentCount() {
     clickCount++;
     notifyListeners();
   }
 
-  void resetCount(){
+  void resetCount() {
     clickCount = 0;
     notifyListeners();
   }

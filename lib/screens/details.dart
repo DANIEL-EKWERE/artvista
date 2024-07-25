@@ -50,7 +50,8 @@ class _DetailsPageState extends State<DetailsPage> {
         throw 'could not launch $url';
       }
     } else {
-      showMessage(context: context, message: 'video not available');
+      // showMessage(context: context, message: 'video not available');
+      showErrorSnackbar(message: 'video not available');
     }
   }
 
@@ -134,9 +135,9 @@ class _DetailsPageState extends State<DetailsPage> {
       int progress = data[2];
 
       if (status == DownloadTaskStatus.complete) {
-        showMessage(message: 'completed', context: context);
+       showSuccessSnackbar(message: 'Completed');
       } else if (status == DownloadTaskStatus.running) {
-        showMessage(message: 'downloading....', context: context);
+        showSuccessSnackbar(message: 'Downloading');
       }
       setState(() {});
     });
@@ -223,12 +224,13 @@ class _DetailsPageState extends State<DetailsPage> {
                   //   },
                   // );
 //showMessage(message: 'download completed');
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text('downloading please wait...'),
-                    duration: Duration(seconds: 5),
-                    behavior: SnackBarBehavior.floating,
-                    backgroundColor: Colors.purple,
-                  ));
+                  // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  //   content: Text('downloading please wait...'),
+                  //   duration: Duration(seconds: 5),
+                  //   behavior: SnackBarBehavior.floating,
+                  //   backgroundColor: Colors.purple,
+                  // ));
+                  showSuccessSnackbar(message: 'downloading please wait...');
                   // Fluttertoast.showToast(
                   //     msg: 'this is a toast message',
                   //     toastLength: Toast.LENGTH_LONG,
@@ -240,23 +242,13 @@ class _DetailsPageState extends State<DetailsPage> {
                   print('the value of x is........$x');
                   // showMessage(message: 'download completed');
                   // ignore: use_build_context_synchronously
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text('download completed'),
-                    duration: Duration(seconds: 5),
-                    behavior: SnackBarBehavior.floating,
-                    backgroundColor: Colors.purple,
-                  ));
+                  showSuccessSnackbar(message: 'download completed!!!');
 
                   Future.delayed(const Duration(seconds: 3), () {
                     Provider.of<AdsProvider>(context, listen: false)
                         .showRewardedAd();
                     print('now calling toast message....');
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text('download completed'),
-                      duration: Duration(seconds: 5),
-                      behavior: SnackBarBehavior.floating,
-                      backgroundColor: Colors.purple,
-                    ));
+                    showSuccessSnackbar(message: 'download completed');
                   });
                 },
                 shape: RoundedRectangleBorder(
@@ -447,13 +439,7 @@ class _DetailsPageState extends State<DetailsPage> {
                             key: UniqueKey(),
                             onTap: () async {
                               // print(item1);
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(const SnackBar(
-                                content: Text('loading...'),
-                                duration: Duration(seconds: 3),
-                                behavior: SnackBarBehavior.floating,
-                                backgroundColor: Colors.purple,
-                              ));
+                           showSuccessSnackbar(message: 'loading...');
                               Post singlePost =
                                   await context.read<PostProvider>().singlePost(
                                         id: snapshot.data![index].id,
