@@ -239,8 +239,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                       "Downloading please wait.......",
                                 ),
                               );
-                              Provider.of<AdsProvider>(context, listen: false)
-                                    .showRewardedInterstitialAd();
+                             
                   // Fluttertoast.showToast(
                   //     msg: 'this is a toast message',
                   //     toastLength: Toast.LENGTH_LONG,
@@ -250,6 +249,8 @@ class _DetailsPageState extends State<DetailsPage> {
                   //     fontSize: SizeConfig.blockSizeHorizontal! * 1.5);
                   var x = await downlaoder(widget.singlePost.image);
                   print('the value of x is........$x');
+                   Provider.of<AdsProvider>(context, listen: false)
+                                    .showRewardedInterstitialAd();
                   // showMessage(message: 'download completed');
                   // ignore: use_build_context_synchronously
                            showTopSnackBar(
