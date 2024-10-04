@@ -7,6 +7,8 @@ import 'package:artvista/models/model1.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class PostProvider extends ChangeNotifier {
   // ignore: prefer_final_fields
@@ -117,7 +119,7 @@ class PostProvider extends ChangeNotifier {
     return data1;
   }
 
-  Future<Post> singlePost({required int id}) async {
+  Future<Post> singlePost({required int id,BuildContext? context}) async {
     _isLoading = true;
     notifyListeners();
     //  print('calling from method');
@@ -142,6 +144,13 @@ class PostProvider extends ChangeNotifier {
     } on SocketException catch (_) {
       _regMessage = 'network unavailable';
       _isLoading = false;
+      showTopSnackBar(
+    Overlay.of(context!),
+    CustomSnackBar.error(
+      message:
+          "Check your internet connection",
+    ),
+);
       notifyListeners();
     } catch (e) {
       _isLoading = false;

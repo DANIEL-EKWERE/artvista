@@ -17,6 +17,8 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:html/parser.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart';
@@ -230,7 +232,13 @@ class _DetailsPageState extends State<DetailsPage> {
                   //   behavior: SnackBarBehavior.floating,
                   //   backgroundColor: Colors.purple,
                   // ));
-                  showSuccessSnackbar(message: 'downloading please wait...');
+                           showTopSnackBar(
+                                Overlay.of(context),
+                                CustomSnackBar.info(
+                                  message:
+                                      "Downloading please wait.......",
+                                ),
+                              );
                   // Fluttertoast.showToast(
                   //     msg: 'this is a toast message',
                   //     toastLength: Toast.LENGTH_LONG,
@@ -242,7 +250,13 @@ class _DetailsPageState extends State<DetailsPage> {
                   print('the value of x is........$x');
                   // showMessage(message: 'download completed');
                   // ignore: use_build_context_synchronously
-                  showSuccessSnackbar(message: 'download completed!!!');
+                           showTopSnackBar(
+                                Overlay.of(context),
+                                CustomSnackBar.success(
+                                  message:
+                                      "Download completed!",
+                                ),
+                              );
 
                   Future.delayed(const Duration(seconds: 3), () {
                     Provider.of<AdsProvider>(context, listen: false)
@@ -263,6 +277,15 @@ class _DetailsPageState extends State<DetailsPage> {
               child: FloatingActionButton(
                 backgroundColor: Colors.purple,
                 onPressed: () async {
+                  if(widget.singlePost.video == null){
+                             showTopSnackBar(
+                                Overlay.of(context),
+                                CustomSnackBar.error(
+                                  message:
+                                      "Video not available!",
+                                ),
+                              );
+                  }
                   launchYoutubeVideo(widget.singlePost.video, context);
                 },
                 shape: RoundedRectangleBorder(
@@ -439,7 +462,14 @@ class _DetailsPageState extends State<DetailsPage> {
                             key: UniqueKey(),
                             onTap: () async {
                               // print(item1);
-                           showSuccessSnackbar(message: 'loading...');
+                           //showSuccessSnackbar(message: 'loading...');
+                            showTopSnackBar(
+                                Overlay.of(context),
+                                CustomSnackBar.info(
+                                  message:
+                                      "Loading please wait.....",
+                                ),
+                              );
                               Post singlePost =
                                   await context.read<PostProvider>().singlePost(
                                         id: snapshot.data![index].id,
@@ -448,6 +478,13 @@ class _DetailsPageState extends State<DetailsPage> {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) =>
                                       DetailsPage(singlePost: singlePost)));
+                                       showTopSnackBar(
+                                Overlay.of(context),
+                                CustomSnackBar.success(
+                                  message:
+                                      "Post Retrived!!!",
+                                ),
+                              );
                               //     print(item1);
                             },
                             child: Column(

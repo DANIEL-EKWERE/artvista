@@ -1,3 +1,8 @@
+import 'package:flutter/material.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+// import 'package:top_snackbar_flutter/tap_bounce_container.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
+
 import 'package:artvista/customizations/app_style.dart';
 import 'package:artvista/customizations/size_config.dart';
 import 'package:artvista/models/model1.dart';
@@ -374,6 +379,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           return GestureDetector(
                             key: UniqueKey(),
                             onTap: () async {
+                              showTopSnackBar(
+                                Overlay.of(context),
+                                CustomSnackBar.info(
+                                  message:
+                                      "Loading please wait.....",
+                                ),
+                              );
                               // print(item1);
                               if (index == 3 &&
                                   context.read<AdsProvider>().nativeAd !=
@@ -399,6 +411,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) =>
                                       DetailsPage(singlePost: singlePost)));
+                                                                  showTopSnackBar(
+    Overlay.of(context),
+    CustomSnackBar.success(
+      message:
+          "Post retrived!!!",
+    ),
+);
                               //     print(item1);
                             },
                             child: Column(
