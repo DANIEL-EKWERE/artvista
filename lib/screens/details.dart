@@ -239,6 +239,8 @@ class _DetailsPageState extends State<DetailsPage> {
                                       "Downloading please wait.......",
                                 ),
                               );
+                              Provider.of<AdsProvider>(context, listen: false)
+                                    .showRewardedInterstitialAd();
                   // Fluttertoast.showToast(
                   //     msg: 'this is a toast message',
                   //     toastLength: Toast.LENGTH_LONG,

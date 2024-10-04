@@ -164,8 +164,8 @@ class AdsProvider extends ChangeNotifier {
   void createRewardedInterstitialAd() {
     RewardedInterstitialAd.load(
         adUnitId: Platform.isAndroid
-            ? 'ca-app-pub-8689659519341801/7293990836'
-            : 'ca-app-pub-8689659519341801/7293990836',
+            ? 'ca-app-pub-8689659519341801/5041208804'
+            : 'ca-app-pub-8689659519341801/5041208804',
         request: const AdRequest(),
         rewardedInterstitialAdLoadCallback: RewardedInterstitialAdLoadCallback(
           onAdLoaded: (RewardedInterstitialAd ad) {
